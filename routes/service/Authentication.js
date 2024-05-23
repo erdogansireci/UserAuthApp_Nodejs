@@ -37,8 +37,8 @@ router.get("/GetAuthToken", (req, res) =>
             console.log("FJDSJDS32873 Giriş bilgilerinde hata");
 
             result.Message = "Giriş bilgilerinde hata";
- 
-            return res.json(result);
+            
+            return res.json(result); 
 
         }
 
@@ -62,8 +62,6 @@ router.get("/GetAuthToken", (req, res) =>
 
         // TODO: if false return error
 
-
-        res.json("0");
     }
     catch (error)
     {
@@ -71,4 +69,7 @@ router.get("/GetAuthToken", (req, res) =>
         console.log("JFDSJDJDFS32783278 GetAuthToken'da hata. Result: " + result + 
             "\nError: " + error);
     }
+
+    res.json(result);
+
 });
