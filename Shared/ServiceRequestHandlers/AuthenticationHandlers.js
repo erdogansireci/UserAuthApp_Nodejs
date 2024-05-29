@@ -1,19 +1,15 @@
-const express = require("express");
-const router = express.Router();
+const PlatformType = require("../../Shared/Enums");
 
-const uuid = require("uuid");
-const PlatformType = require("../Shared/Enums");
-
-router.get("/GetAuthToken", (req, res) =>
+function GetAuthToken(params)
 {
-
+    
     // Yeni token oluştur ve kullanıcıya dön
     // Kullanıcının giriş bilgileri gelecek ve DB'den karşılaştırılıp token dönecek
     // Diğer metotlara erişmek için kullanıcı bu tokenı kullanmak zorunda olmalı.
 
     // Request class olmalı ve deserialize edilip burada kullanılmalı
     // Response class olmalı ve serialize edilip kullanıcıya dönmeli
-    
+
     // TODO: Class olmalı ve oradan gelmeli
     let result = 
     {
@@ -23,12 +19,8 @@ router.get("/GetAuthToken", (req, res) =>
         Result: false
     };
 
-    let params;
-
     try
     {
-
-        params = req.body;
 
         let username = params.Username;
         let password = params.Password;
@@ -41,7 +33,7 @@ router.get("/GetAuthToken", (req, res) =>
 
             result.Message = "Wrong login info";
             
-            return res.json(result); 
+            return result; 
 
         }
 
@@ -54,7 +46,7 @@ router.get("/GetAuthToken", (req, res) =>
 
             result.Message = "Unsupported platform";
  
-            return res.json(result);
+            return result;
         }
 
         // TODO: get user info from DB
@@ -78,13 +70,14 @@ router.get("/GetAuthToken", (req, res) =>
     catch (error)
     {
         // TODO: logger kodlanmalı
-        console.log("JFDSJDJDFS32783278 Couldn't get AuthToken. Result: " + result + 
+        console.log("JFDSJDJDFS32783278 Error on GetAuthToken method" + 
+            "\nResult: " + result + 
             "\nError: " + error + 
-            "\nReq Body: " + JSON.stringify(req.body));
+            "\nParams: " + JSON.stringify(params));
     }
 
-    res.json(result);
+    return result;
 
-});
+}
 
-module.exports = router;
+module.exports = {GetAuthToken};

@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // Routes, services
-app.use('/service/Authentication', require('./routes/service/Authentication'));
+app.use('/services', require('./routes/service/AuthenticationService'));
 
 // start server
 app.listen(port, () => {
