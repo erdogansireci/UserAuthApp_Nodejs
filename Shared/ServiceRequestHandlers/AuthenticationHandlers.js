@@ -1,6 +1,7 @@
 const PlatformType = require("../../Shared/Enums");
+const postgres = require("../DatabaseHandlers/PostgresHandler");
 
-function GetAuthToken(params)
+async function GetAuthToken(params)
 {
     
     // Yeni token oluştur ve kullanıcıya dön
@@ -49,21 +50,24 @@ function GetAuthToken(params)
             return result;
         }
 
-        // TODO: get user info from DB
+        // get user info from DB
+        await postgres.Connect(); // TODO: should be db.connect and handle automatically which db
+        let response = await postgres.GetUsernamePasswordQuery();
+        await postgres.Disconnect();
+        
+        let dbUsername = response.rows[0].username;
+        let dbPassword = response.rows[0].password;
 
-        // TODO: check if infos true
-
-        // TODO: if true return JWT token
-
-        // TODO: if false return error
-
-        // TEST
-        if (username === "erdogan.sireci" && password === "pentagon" && platformType === PlatformType.POSTMAN)
+        // check if credentials true
+        if (username === dbUsername && password === dbPassword)
         {
-
-            result.AuthToken = "12345Abc.";
+            result.AuthToken = "12345Abc."; // TODO: create JWT
             result.Result = true;
-            result.UserID = 1
+            result.UserID = 1;
+        }
+        else
+        {
+            result.Message = "Username or Password is wrong!";
         }
 
     }

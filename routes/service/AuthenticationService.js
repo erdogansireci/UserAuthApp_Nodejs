@@ -3,15 +3,13 @@ const router = express.Router();
 
 const authHandler = require("../../Shared/ServiceRequestHandlers/AuthenticationHandlers");
 
-router.get("/GetAuthToken", (request, response) =>
+router.get("/GetAuthToken", async (request, response) =>
 {
     try
     {
 
         // Handle request
-        let result = authHandler.GetAuthToken(request.body);
-
-        // return response
+        let result = await authHandler.GetAuthToken(request.body);
         response.json(result);
 
     }
